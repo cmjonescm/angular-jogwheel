@@ -1,0 +1,8 @@
+{
+  "name": "polymer example components installer",
+  "version": "0.1.1",
+  "dependencies": {
+      "angular": "~1.2.0-rc.1"
+  },
+  "ignore": []
+}

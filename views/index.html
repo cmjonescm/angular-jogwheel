@@ -1,0 +1,23 @@
+<html ng-app="jogWheel">
+    <head>
+        <!-- Styles -->
+        <link href="../css/jogWheel.css" rel="stylesheet" type="text/css" />
+
+        <!-- Libs -->
+        <script type="text/javascript" src="../client_modules/angular/angular.js"></script>
+
+        <!-- Jog Wheel control components -->
+        <script type="text/javascript" src="../app/controllers/jogWheelController.js"></script>
+        <script type="text/javascript" src="../app/directives/jogWheelDirective.js"></script>
+
+    </head>
+
+    <body>
+        <div id="jogWheel1" ng-controller="jogWheelController">
+
+            <wat-jogwheel binding="property1" col="blue" position="left"></wat-jogwheel>
+            <wat-jogwheel binding="property2" col="red" position="right"></wat-jogwheel>
+        </div>
+    </body>
+
+</html>
