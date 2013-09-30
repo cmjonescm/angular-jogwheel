@@ -1,0 +1,9 @@
+// - Change the control size
+// - Double tap to center it.
+// - Swipe left or right to max out setting!
+// - Disable the control when setting control not selected.
+// - Look at leaving the JogWheel control in position, but grayed!
+// - Make the label selectable.
+// - Need to make the jog wheel incoperate speed of movement to cal the IncrementBy()
+// - Look at incoperate speed of movement (done for mouse, but needs refactoring.)
+// - Force controls at bottom of browser window.
