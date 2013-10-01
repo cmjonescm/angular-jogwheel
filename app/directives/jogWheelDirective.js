@@ -3,9 +3,9 @@
 //*****************************************************************************
 'use strict';
 
-angular.module('jogWheelCtrl.directive', [])
-    .directive('jogWheel', function () {
-        // Directive functionality goes here
+angular.module('jogWheelCtrlModule.directive', [])
+    .directive('jogWheel', [ 'conversionFactory', function (conversion) {
+
         var linker = function (scope, element, attrs) {
             var refreshInterval = 500; // update display every 500ms
             var mouseX = 0;
@@ -185,13 +185,13 @@ angular.module('jogWheelCtrl.directive', [])
                     //console.log("debug: " + newIncrement + "  pps:" + pps +   "  incCounter:" + incCounter);
                     incCounter += newIncrement;
                     if (incCounter >= 20) {
-                        scope.IncrementBy(binding, 1);
+                        scope.IncrementBy(1);
                         incCounter = 0;
                     }
                     else
                     {
                         if (incCounter <= -20) {
-                            scope.IncrementBy(binding, -1);
+                            scope.IncrementBy(-1);
                             incCounter = 0;
                         }
                     }
@@ -199,10 +199,10 @@ angular.module('jogWheelCtrl.directive', [])
                 else
                 {
                     //console.log("*******************");
-                    scope.IncrementBy(binding, newIncrement);
+                    scope.IncrementBy(newIncrement);
                 }
 
-                //scope.IncrementBy(binding, newIncrement);
+                //scope.IncrementBy(newIncrement);
 
                 // If we use angular events then this will not be needed!
                 scope.$apply();
@@ -239,7 +239,7 @@ angular.module('jogWheelCtrl.directive', [])
                 var angleRadians = Math.atan2(point.y - 100, point.x - 100);
 
                 //convert to degrees
-                var angleDegrees = toDegrees(angleRadians);
+                var angleDegrees = conversion.toDegrees(angleRadians);
 
                 //angleDegrees will be in the range (-180,180].
                 //I like normalizing to [0,360) myself, but this is optional..
@@ -263,38 +263,9 @@ angular.module('jogWheelCtrl.directive', [])
                     y: Math.sin(radians) * canvasRadius + canvasCenter[1] }
             }
 
-            function toDegrees(radians) {
-
-                var degrees = radians * (180 / 3.14159265)
-
-                return degrees;
-            }
-
-            function toRadians(degrees) {
-
-                var radians = degrees * (3.14159265 / 180)
-                return radians;
-            }
-
-            function debugOutput(message) {
-                scope.debugger(message);
-
-                // If we use angular events then this will not be needed!
-                scope.$apply();
-            }
-
-
-            function output(id, message) {
-                var property = scope.property(id);
-                property.setting = message;
-
-                // If we use angular events then this will not be needed!
-                scope.$apply();
-            }
 
             var posX = attrs.x;
             var posY = attrs.y;
-            var binding = attrs.binding;
             var mouseDown = 0;
             var myCanvas = element[0];
             var ctx = element[0].getContext('2d');
@@ -307,14 +278,6 @@ angular.module('jogWheelCtrl.directive', [])
                 myCanvas.addEventListener( 'touchstart', onTouchStart, false );
                 myCanvas.addEventListener( 'touchmove', onTouchMove, false );
                 myCanvas.addEventListener( 'touchend', onTouchEnd, false );
-                if ($$.isMobile()) {
-                    //debugOutput("66");
-                }
-
-                //myCanvas.doubleTap(function(ev) { debugOutput(44) });
-
-                // myCanvas.hammer.ontap = function(ev) { };
-                // myCanvas.hammer.ondoubletap = function(ev) { };
             }
             else {
                 myCanvas.addEventListener( 'mousemove', onMouseMove, false );
@@ -331,10 +294,27 @@ angular.module('jogWheelCtrl.directive', [])
         return {
             restrict: 'E',
             scope: {
-                model: '@ngModel'
+                model: '=ngModel'
             },
+            controller: ['$scope', function ($scope) {
+                $scope.IncrementBy = function(increment) {
+                    $scope.model += increment;
+                }
+            }],
             template: '<canvas width="0" height="0"></canvas>',
             replace: true,
             link: linker
+        }
+    }])
+    .factory('conversionFactory', function(){
+        return {
+            toDegrees: function(radians) {
+                var degrees = radians * (180 / 3.14159265)
+                return degrees;
+            },
+            toRadians: function(degrees) {
+                var radians = degrees * (3.14159265 / 180)
+                return radians;
+            }
         }
     });

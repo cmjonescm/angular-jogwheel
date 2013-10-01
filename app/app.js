@@ -3,7 +3,7 @@
 //*****************************************************************************
 'use strict';
 
-var app = angular.module('jogWheelApp', [ 'jogWheel.controller', 'jogWheelCtrl.directive']);
+var app = angular.module('jogWheelApp', [ 'jogWheelModule.controller', 'jogWheelCtrlModule.directive']);
 
 
 

@@ -3,9 +3,13 @@
 //*****************************************************************************
 
 
-angular.module('jogWheel.controller', [])
+angular.module('jogWheelModule.controller', [])
     .controller('jogWheelController', ['$scope', function ($scope) {
         // Controller functionality goes here
+        $scope.setting = 0.0;
+
+
+
 /*
         $scope.debug = "";
 
